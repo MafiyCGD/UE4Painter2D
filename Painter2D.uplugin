@@ -1,0 +1,28 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Painter2D",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "Anton Malytskyi",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Painter2D",
+			"Type": "Developer",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "Painter2DEditor",
+			"Type": "Developer",
+			"LoadingPhase": "Default"
+		}
+	]
+}
