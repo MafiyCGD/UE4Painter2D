@@ -31,8 +31,8 @@ void FPainter2DAssetTypeActions::OpenAssetEditor(const TArray<UObject*>& InObjec
 	{
 		if (UPainter2DAsset* Sprite = Cast<UPainter2DAsset>(*ObjIt))
 		{
-			TSharedRef<FPainter2DAssetEditor> NewSpriteEditor(new FPainter2DAssetEditor());
-			NewSpriteEditor->InitEditor(Mode, EditWithinLevelEditor, InObjects);
+			TSharedRef<FPainter2DAssetEditor> NewPainter2DEditor(new FPainter2DAssetEditor());
+			NewPainter2DEditor->InitEditor(Mode, EditWithinLevelEditor, InObjects);
 		}
 	}
 }

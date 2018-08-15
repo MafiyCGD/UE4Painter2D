@@ -19,6 +19,7 @@ void FPainter2DAssetEditor::UnregisterTabSpawners(const TSharedRef<class FTabMan
 void FPainter2DAssetEditor::InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<class IToolkitHost>& InitToolkitHost, const TArray<UObject *>& ObjectsToEdit)
 {
 	const TSharedRef<FTabManager::FLayout> StandaloneDefaultLayout = FTabManager::NewLayout("CustomEditor_Layout");
+	StandaloneDefaultLayout->AddArea(FTabManager::NewPrimaryArea()->SetOrientation(Orient_Vertical));
 	FAssetEditorToolkit::InitAssetEditor(Mode, InitToolkitHost, "Painter2D", StandaloneDefaultLayout, true, true, ObjectsToEdit);
 }
 
