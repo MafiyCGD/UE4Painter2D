@@ -39,7 +39,9 @@ public class Painter2DEditor : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "UnrealEd",
+                "EditorStyle",
                 "Slate",
+                "InputCore",
                 "SlateCore",
                 "Painter2D",
             });

@@ -3,12 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Toolkits/AssetEditorToolkit.h"
+#include "IPainter2DEditorToolkit.h"
 
+
+class SPainter2DEditorEditorViewport;
 /**
  * 
  */
-class FPainter2DAssetEditor : public FAssetEditorToolkit
+class FPainter2DAssetEditor 
+	: public IPainter2DEditorToolkit
 {
 public:
 	FPainter2DAssetEditor();
@@ -26,4 +29,13 @@ public:
 	// End of FAssetEditorToolkit
 
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, const TArray<UObject*>& ObjectsToEdit);
+
+	// Callback for spawning the Viewport tab.
+	TSharedRef<SDockTab> HandleTabSpawnerSpawnViewport(const FSpawnTabArgs& Args);
+
+private:
+	TSharedPtr<SPainter2DEditorEditorViewport> VieportPtr;
+
+	// The name of the Viewport tab.
+	static const FName ViewportTabId;
 };
