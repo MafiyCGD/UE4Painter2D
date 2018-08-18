@@ -29,10 +29,10 @@ void FPainter2DAssetTypeActions::OpenAssetEditor(const TArray<UObject*>& InObjec
 
 	for (auto ObjIt = InObjects.CreateConstIterator(); ObjIt; ++ObjIt)
 	{
-		if (UPainter2DAsset* Sprite = Cast<UPainter2DAsset>(*ObjIt))
+		if (UPainter2DAsset* Painter2DAsset = Cast<UPainter2DAsset>(*ObjIt))
 		{
 			TSharedRef<FPainter2DAssetEditor> NewPainter2DEditor(new FPainter2DAssetEditor());
-			NewPainter2DEditor->InitEditor(Mode, EditWithinLevelEditor, InObjects);
+			NewPainter2DEditor->InitEditor(Mode, EditWithinLevelEditor, Painter2DAsset);
 		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "Widgets/Painter2DEditorEditorViewport.h"
 #include "Widgets/Docking/SDockTab.h"
 #include "EditorStyleSet.h"
+#include "Painter2DAsset.h"
 
 #define LOCTEXT_NAMESPACE "FPainter2DAssetEditor"
 
@@ -33,8 +34,9 @@ void FPainter2DAssetEditor::UnregisterTabSpawners(const TSharedRef<class FTabMan
 	InTabManager->UnregisterTabSpawner(ViewportTabId);
 }
 
-void FPainter2DAssetEditor::InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<class IToolkitHost>& InitToolkitHost, const TArray<UObject *>& ObjectsToEdit)
+void FPainter2DAssetEditor::InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<class IToolkitHost>& InitToolkitHost, UPainter2DAsset* Painter2DAsset)
 {
+	Painter2DAssetPtr = Painter2DAsset;
 	VieportPtr = SNew(SPainter2DEditorEditorViewport, SharedThis(this));
 	const TSharedRef<FTabManager::FLayout> StandaloneDefaultLayout = FTabManager::NewLayout("Painter2DEditor_Layout");
 	StandaloneDefaultLayout->AddArea
@@ -63,7 +65,12 @@ void FPainter2DAssetEditor::InitEditor(const EToolkitMode::Type Mode, const TSha
 		)
 	);
 
-	FAssetEditorToolkit::InitAssetEditor(Mode, InitToolkitHost, "Painter2D", StandaloneDefaultLayout, true, true, ObjectsToEdit);
+	FAssetEditorToolkit::InitAssetEditor(Mode, InitToolkitHost, "Painter2D", StandaloneDefaultLayout, true, true, Painter2DAsset);
+}
+
+TWeakObjectPtr<UPainter2DAsset> FPainter2DAssetEditor::GetPainter2DAsset()
+{
+	return Painter2DAssetPtr;
 }
 
 TSharedRef<SDockTab> FPainter2DAssetEditor::HandleTabSpawnerSpawnViewport(const FSpawnTabArgs& Args)

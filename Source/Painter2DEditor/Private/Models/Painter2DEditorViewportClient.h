@@ -15,7 +15,7 @@ class FPainter2DEditorViewportClient
 {
 public:
 	/** Constructor */
-	FPainter2DEditorViewportClient(TWeakPtr<SPainter2DEditorEditorViewport> InPainter2DEditorViewport);
+	FPainter2DEditorViewportClient(TWeakPtr<IPainter2DEditorToolkit> InPainter2DEditor, TWeakPtr<SPainter2DEditorEditorViewport> InPainter2DEditorViewport);
 	~FPainter2DEditorViewportClient() {};
 
 	/** FViewportClient interface */
@@ -26,9 +26,15 @@ public:
 	float GetViewportHorizontalScrollBarRatio() const;
 
 private:
+	/** Default render clear color */
 	FLinearColor ClearColor;
-	float TextureWeight;
-	float TextureHeight;
+	uint32 CanvasWeight;
+	uint32 CanvasHeight;
+
+	TWeakObjectPtr<UTexture2D> CanvasData;
+
+	/** Pointer back to the Painter2D editor tool that owns us */
+	TWeakPtr<IPainter2DEditorToolkit> Painter2DEditorPtr;
 
 	/** Pointer back to the Painter2D viewport control that owns us */
 	TWeakPtr<SPainter2DEditorEditorViewport> Painter2DEditorViewportPtr;

@@ -53,7 +53,7 @@ void SPainter2DEditorEditorViewport::Construct(const FArguments& InArgs, const T
 	];
 
 
-	ViewportClient = MakeShareable(new FPainter2DEditorViewportClient(SharedThis(this)));
+	ViewportClient = MakeShareable(new FPainter2DEditorViewportClient(ToolkitPtr, SharedThis(this)));
 
 	Viewport = MakeShareable(new FSceneViewport(ViewportClient.Get(), ViewportWidget));
 

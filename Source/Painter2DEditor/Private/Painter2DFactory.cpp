@@ -10,6 +10,10 @@ UPainter2DFactory::UPainter2DFactory()
 
 UObject* UPainter2DFactory::FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn)
 {
-	return NewObject<UPainter2DAsset>(InParent, Class, Name, Flags | RF_Transactional);
+	UPainter2DAsset* NewAsset = NewObject<UPainter2DAsset>(InParent, Class, Name, Flags | RF_Transactional);
+
+	NewAsset->InitializeCanvas(512, 512);
+	
+	return NewAsset;
 }
 

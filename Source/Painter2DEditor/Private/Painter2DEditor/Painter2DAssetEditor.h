@@ -7,6 +7,7 @@
 
 
 class SPainter2DEditorEditorViewport;
+class UPainter2DAsset;
 /**
  * 
  */
@@ -28,12 +29,16 @@ public:
 	virtual FString GetWorldCentricTabPrefix() const override;
 	// End of FAssetEditorToolkit
 
-	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, const TArray<UObject*>& ObjectsToEdit);
+	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UPainter2DAsset* Painter2DAsset);
 
 	// Callback for spawning the Viewport tab.
 	TSharedRef<SDockTab> HandleTabSpawnerSpawnViewport(const FSpawnTabArgs& Args);
 
+	TWeakObjectPtr<UPainter2DAsset> GetPainter2DAsset() override;
+
 private:
+	TWeakObjectPtr<UPainter2DAsset> Painter2DAssetPtr;
+
 	TSharedPtr<SPainter2DEditorEditorViewport> VieportPtr;
 
 	// The name of the Viewport tab.

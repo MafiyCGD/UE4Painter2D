@@ -7,13 +7,17 @@
 #include "Slate/SceneViewport.h"
 #include "Widgets/Painter2DEditorEditorViewport.h"
 #include "IPainter2DEditorToolkit.h"
+#include "Painter2DAsset.h"
 
-FPainter2DEditorViewportClient::FPainter2DEditorViewportClient(TWeakPtr<SPainter2DEditorEditorViewport> InPainter2DEditorViewport) :
+FPainter2DEditorViewportClient::FPainter2DEditorViewportClient(TWeakPtr<IPainter2DEditorToolkit> InPainter2DEditor, TWeakPtr<SPainter2DEditorEditorViewport> InPainter2DEditorViewport) :
+	Painter2DEditorPtr(InPainter2DEditor),
 	Painter2DEditorViewportPtr(InPainter2DEditorViewport),
-	ClearColor(0.15f, 0.15f, 0.15f),
-	TextureWeight(512.0f),
-	TextureHeight(512.0f)
+	ClearColor(0.15f, 0.15f, 0.15f)
 {
+	CanvasData = Painter2DEditorPtr.Pin()->GetPainter2DAsset()->GetCanvas();
+
+	CanvasWeight = CanvasData->GetSizeX();
+	CanvasHeight = CanvasData->GetSizeX();
 }
 
 void FPainter2DEditorViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
@@ -30,7 +34,11 @@ void FPainter2DEditorViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 
 	Canvas->Clear(ClearColor);
 
-	Canvas->DrawTile(XPos, YPos, TextureHeight, TextureWeight, 0.0f, 0.0f, 1.0f, 1.0f, FLinearColor::White, nullptr, false);
+	if (CanvasData->Resource != nullptr)
+	{
+		FCanvasTileItem TileItem(FVector2D(XPos, YPos), CanvasData->Resource, FVector2D((float)CanvasWeight, (float)CanvasHeight), FLinearColor(1.0f, 1.0f, 1.0f));
+		Canvas->DrawItem(TileItem);
+	}
 }
 
 void FPainter2DEditorViewportClient::UpdateScrollBars()
@@ -80,7 +88,7 @@ float FPainter2DEditorViewportClient::GetViewportVerticalScrollBarRatio() const
 		WidgetHeight = Painter2DEditorViewportPtr.Pin()->GetViewport()->GetSizeXY().Y;
 	}
 
-	return WidgetHeight / TextureHeight;
+	return WidgetHeight / CanvasHeight;
 }
 
 
@@ -92,7 +100,7 @@ float FPainter2DEditorViewportClient::GetViewportHorizontalScrollBarRatio() cons
 		WidgetWidth = Painter2DEditorViewportPtr.Pin()->GetViewport()->GetSizeXY().X;
 	}
 
-	return WidgetWidth / TextureWeight;
+	return WidgetWidth / CanvasWeight;
 }
 
 FVector2D FPainter2DEditorViewportClient::GetViewportScrollBarPositions() const
@@ -107,7 +115,7 @@ FVector2D FPainter2DEditorViewportClient::GetViewportScrollBarPositions() const
 
 		if ((Painter2DEditorViewportPtr.Pin()->GetVerticalScrollBar()->GetVisibility() == EVisibility::Visible) && VDistFromBottom < 1.0f)
 		{
-			Positions.Y = FMath::Clamp(1.0f - VRatio - VDistFromBottom, 0.0f, 1.0f) * TextureHeight;
+			Positions.Y = FMath::Clamp(1.0f - VRatio - VDistFromBottom, 0.0f, 1.0f) * CanvasHeight;
 		}
 		else
 		{
@@ -116,7 +124,7 @@ FVector2D FPainter2DEditorViewportClient::GetViewportScrollBarPositions() const
 
 		if ((Painter2DEditorViewportPtr.Pin()->GetHorizontalScrollBar()->GetVisibility() == EVisibility::Visible) && HDistFromBottom < 1.0f)
 		{
-			Positions.X = FMath::Clamp(1.0f - HRatio - HDistFromBottom, 0.0f, 1.0f) * TextureWeight;
+			Positions.X = FMath::Clamp(1.0f - HRatio - HDistFromBottom, 0.0f, 1.0f) * CanvasWeight;
 		}
 		else
 		{
